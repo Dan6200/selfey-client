@@ -5,7 +5,7 @@ export default async function Posts() {
   const posts = await fetch(process.env.NEXT_PUBLIC_API + "/posts/", {
     next: { revalidate: 60 * 60 },
   }).then((res) => {
-    //if (res.status >= 400) return null;
+    if (res.status >= 400) return null;
     return res.json();
   });
   const user = await fetch(
@@ -14,7 +14,7 @@ export default async function Posts() {
       next: { revalidate: 60 * 60 },
     }
   ).then((res) => {
-    //if (res.status >= 400) return null;
+    if (res.status >= 400) return null;
     return res.json();
   });
   console.log(posts);
