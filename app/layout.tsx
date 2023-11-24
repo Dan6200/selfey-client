@@ -1,5 +1,6 @@
 import Nav from "@/components/nav";
 import type { Metadata } from "next";
+import NextAuthProvider from "./auth/next-auth-provider";
 import { Inter } from "next/font/google";
 import "./globals.css";
 
@@ -18,10 +19,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <main className="flex min-h-screen flex-col space-y-24">
-          <Nav />
-          {children}
-        </main>
+        <NextAuthProvider>
+          <main className="flex min-h-screen flex-col space-y-24">
+            <Nav />
+            {children}
+          </main>
+        </NextAuthProvider>
       </body>
     </html>
   );
