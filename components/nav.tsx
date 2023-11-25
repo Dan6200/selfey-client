@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { Button } from "./ui/button";
 import { useSession } from "next-auth/react";
+import { signOut } from "next-auth/react";
 
 export default function Nav() {
   const { data: userData } = useSession();
@@ -20,12 +21,12 @@ export default function Nav() {
             <Link href="/add-post">
               <Button>Add Post</Button>
             </Link>
-            <Link href="/api/auth/signout">
-              <Button>Sign Out</Button>
+            <Link href="/logout">
+              <Button onClick={() => signOut()}>Sign Out</Button>
             </Link>
           </>
         ) : (
-          <Link href="/api/auth/signin">
+          <Link href="/login">
             <Button>Sign In</Button>
           </Link>
         )}

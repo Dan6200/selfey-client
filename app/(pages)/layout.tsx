@@ -1,8 +1,8 @@
 import Nav from "@/components/nav";
 import type { Metadata } from "next";
-import NextAuthProvider from "./auth/next-auth-provider";
 import { Inter } from "next/font/google";
-import "./globals.css";
+import NextAuthProvider from "../(auth)/next-auth-provider";
+import "../globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
