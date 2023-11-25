@@ -17,8 +17,6 @@ export default async function Posts() {
     if (res.status >= 400) return null;
     return res.json();
   });
-  console.log(posts);
-  console.log(user);
   return (
     <section className="flex flex-col items-center space-y-12">
       {posts &&
