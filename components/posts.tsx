@@ -3,7 +3,7 @@ import { Card, CardFooter, CardHeader } from "./ui/card";
 
 export default async function Posts() {
   const posts = await fetch(process.env.NEXT_PUBLIC_API + "/posts/", {
-    next: { revalidate: 60 * 60 },
+    next: { revalidate: 60 },
   }).then((res) => {
     if (res.status >= 400) return null;
     return res.json();
@@ -11,7 +11,7 @@ export default async function Posts() {
   const user = await fetch(
     process.env.NEXT_PUBLIC_API + "/users/" + posts?.[0]?.author,
     {
-      next: { revalidate: 60 * 60 },
+      next: { revalidate: 60 },
     }
   ).then((res) => {
     if (res.status >= 400) return null;
