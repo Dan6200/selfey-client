@@ -8,19 +8,19 @@ import { Textarea } from "./ui/textarea";
 export default function AddPost() {
   const { register, handleSubmit } = useForm();
 
-  const submitHandler = (data: any) => {
+  const submitHandler = async (data: any) => {
     const formData = new FormData();
     const { image, description } = data;
     formData.append("image", image[0]);
     formData.append("description", description);
     formData.append("author", "1");
-    requests(
+    const result = await requests(
       process.env.NEXT_PUBLIC_API + "/posts/",
       "POST",
       formData,
-      (result) => console.log("Upload success: ", result),
       (error) => console.error("Upload error:", error)
     );
+    console.log("Upload success: ", result);
   };
 
   return (

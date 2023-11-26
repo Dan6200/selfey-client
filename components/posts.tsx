@@ -1,22 +1,20 @@
+import requests from "@/lib/utils/requests";
 import Image from "next/image";
 import { Card, CardFooter, CardHeader } from "./ui/card";
 
 export default async function Posts() {
-  const posts = await fetch(process.env.NEXT_PUBLIC_API + "/posts/", {
-    next: { revalidate: 60 },
-  }).then((res) => {
-    if (res.status >= 400) return null;
-    return res.json();
-  });
-  const user = await fetch(
+  const posts = await requests(
+    process.env.NEXT_PUBLIC_API + "/posts/",
+    "GET",
+    null,
+    (error) => console.error("Error fetching resource", error)
+  );
+  const user = await requests(
     process.env.NEXT_PUBLIC_API + "/users/" + posts?.[0]?.author,
-    {
-      next: { revalidate: 60 },
-    }
-  ).then((res) => {
-    if (res.status >= 400) return null;
-    return res.json();
-  });
+    "GET",
+    null,
+    (error) => console.error("Error fetching resource", error)
+  );
   return (
     <section className="flex flex-col items-center space-y-12">
       {posts &&

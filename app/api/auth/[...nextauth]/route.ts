@@ -15,13 +15,13 @@ const handler = NextAuth({
       if (account?.id_token) {
         token.jwtToken = account.id_token;
       }
-      requests(
+      const result = await requests(
         process.env.NEXT_PUBLIC_API + "/google/",
         "POST",
         { auth_token: token.jwtToken },
-        (result) => console.log("Login success: ", result),
         (error) => console.error("Login error:", error)
       );
+      console.log("Login success: ", result);
       return token;
     },
     session: async ({ session, token }: any) => {

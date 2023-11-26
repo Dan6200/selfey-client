@@ -4,7 +4,6 @@ export default async function (
   url: string,
   action: string,
   body: any,
-  onSuccess: (result: any) => void,
   onError: (error: any) => void
 ) {
   try {
@@ -13,7 +12,7 @@ export default async function (
       url: url,
       data: body,
     });
-    onSuccess(response.data);
+    return response.data;
   } catch (error) {
     onError(error);
   }
