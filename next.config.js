@@ -1,6 +1,15 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  images: { remotePatterns: [process.env.NEXT_PUBLIC_API_DOMAIN] },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: process.env.NEXT_PUBLIC_API_DOMAIN,
+        port: "",
+        pathname: "/media",
+      },
+    ],
+  },
 };
 
 module.exports = nextConfig;
