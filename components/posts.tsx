@@ -24,7 +24,7 @@ export default async function Posts() {
                 width={800}
                 alt={
                   "Post by " +
-                  session.data?.apiResponse?.username +
+                  (session as any).data?.apiResponse?.username +
                   " could not load"
                 }
               />
