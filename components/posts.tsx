@@ -15,6 +15,8 @@ export default async function Posts() {
     null,
     (error) => console.error("Error fetching resource", error)
   );
+  console.log("Post " + posts);
+  console.log("User " + user);
   return (
     <section className="flex flex-col items-center space-y-12">
       {posts &&

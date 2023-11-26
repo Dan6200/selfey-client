@@ -6,7 +6,6 @@ import { signOut } from "next-auth/react";
 
 export default function Nav() {
   const { data: userData } = useSession();
-  console.log("user session data", userData);
   return (
     <nav className="w-full border-red-800 flex justify-between px-8 border-b-foreground border-b-[1pt] py-4">
       <Link href="/">
