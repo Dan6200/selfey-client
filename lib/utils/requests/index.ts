@@ -5,6 +5,7 @@ export default function (
   onSuccess: (result: any) => void,
   onError: (error: any) => void
 ) {
+  console.log("Just made a request");
   fetch(url, {
     method: action,
     body,
