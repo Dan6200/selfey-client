@@ -1,31 +1,32 @@
 import requests from "@/lib/utils/requests";
-import NextAuth from "next-auth";
+import NextAuth, { SessionStrategy } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 
-const handler = NextAuth({
+export const authOptions = {
   pages: {
     signIn: "/login",
     signOut: "/logout",
   },
   session: {
-    strategy: "jwt",
+    strategy: "jwt" as SessionStrategy,
   },
   callbacks: {
     jwt: async ({ token, account }) => {
       if (account?.id_token) {
         token.jwtToken = account.id_token;
       }
-      const result = await requests(
+      const apiResponse = await requests(
         process.env.NEXT_PUBLIC_API + "/google/",
         "POST",
         { auth_token: token.jwtToken },
         (error) => console.error("Login error:", error)
       );
-      console.log("Login success: ", result);
+      token.apiResponse = apiResponse;
       return token;
     },
     session: async ({ session, token }: any) => {
-      session.accessToken = token.accessToken;
+      session.accessToken = token.jwtToken;
+      session.apiResponse = token.apiResponse;
       return session;
     },
     redirect({ url, baseUrl }) {
@@ -38,6 +39,7 @@ const handler = NextAuth({
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     }),
   ],
-});
+};
 
+const handler = NextAuth(authOptions);
 export { handler as GET, handler as POST };

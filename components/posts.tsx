@@ -1,22 +1,17 @@
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import requests from "@/lib/utils/requests";
+import { getServerSession } from "next-auth";
 import Image from "next/image";
 import { Card, CardFooter, CardHeader } from "./ui/card";
 
 export default async function Posts() {
+  const session = getServerSession(authOptions);
   const posts = await requests(
     process.env.NEXT_PUBLIC_API + "/posts/",
     "GET",
     null,
     (error) => console.error("Error fetching resource", error)
   );
-  const user = await requests(
-    process.env.NEXT_PUBLIC_API + "/users/" + posts?.[0]?.author,
-    "GET",
-    null,
-    (error) => console.error("Error fetching resource", error)
-  );
-  console.log("Post " + posts);
-  console.log("User " + user);
   return (
     <section className="flex flex-col items-center space-y-12">
       {posts &&
@@ -27,7 +22,11 @@ export default async function Posts() {
                 src={post.image}
                 height={800}
                 width={800}
-                alt={"Post by " + user.username + " could not load"}
+                alt={
+                  "Post by " +
+                  session.data?.apiResponse?.username +
+                  " could not load"
+                }
               />
             </CardHeader>
             <CardFooter className="flex flex-col items-start">

@@ -1,6 +1,7 @@
 import Nav from "@/components/nav";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import JotaiProvider from "../(auth)/jotai-provider";
 import NextAuthProvider from "../(auth)/next-auth-provider";
 import "../globals.css";
 
@@ -20,10 +21,12 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <NextAuthProvider>
-          <main className="flex min-h-screen flex-col space-y-24">
-            <Nav />
-            {children}
-          </main>
+          <JotaiProvider>
+            <main className="flex min-h-screen flex-col space-y-24">
+              <Nav />
+              {children}
+            </main>
+          </JotaiProvider>
         </NextAuthProvider>
       </body>
     </html>
