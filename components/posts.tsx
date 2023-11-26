@@ -21,7 +21,7 @@ export default async function Posts() {
     <section className="flex flex-col items-center space-y-12">
       {posts &&
         posts.map((post: any, index: number) => (
-          <Card className="w-[90%] sm:w-[40%]" key={index}>
+          <Card className="w-[90%] md:w-[50%]" key={index}>
             <CardHeader>
               <Image
                 src={post.image}
