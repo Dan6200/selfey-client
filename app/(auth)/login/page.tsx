@@ -7,7 +7,7 @@ import Image from "next/image";
 export default function Login() {
   return (
     <section className="flex flex-col items-center space-y-12">
-      <Card className="w-[90%] sm:w-[60%] mb-16 p-8">
+      <Card className="w-[90%] sm:w-[40%] mb-16 p-8">
         <CardHeader className="flex items-center flex-col">
           <h1 className="text-3xl capitalize">
             <span className="text-2xl">Welcome to </span>{" "}

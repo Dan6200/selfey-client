@@ -25,7 +25,7 @@ export default function AddPost() {
 
   return (
     <section className="flex flex-col items-center">
-      <Card className="w-[90%] sm:w-[60%] h-96 p-16">
+      <Card className="w-[90%] sm:w-[40%] h-96 p-16">
         <CardHeader>
           <form
             className="flex flex-col h-64 justify-between"

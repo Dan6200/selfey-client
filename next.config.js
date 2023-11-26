@@ -12,4 +12,5 @@ const nextConfig = {
   },
 };
 
+console.log(process.env.NEXT_PUBLIC_API_DOMAIN);
 module.exports = nextConfig;
