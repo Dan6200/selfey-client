@@ -18,7 +18,7 @@ const handler = NextAuth({
       requests(
         process.env.NEXT_PUBLIC_API + "/google/",
         "POST",
-        token,
+        { auth_token: token.jwtToken },
         (result) => console.log("Login success: ", result),
         (error) => console.error("Login error:", error)
       );
