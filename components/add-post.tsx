@@ -1,4 +1,5 @@
 "use client";
+import requests from "@/lib/utils/requests";
 import { useForm } from "react-hook-form";
 import { Button } from "./ui/button";
 import { Card, CardHeader } from "./ui/card";
@@ -9,22 +10,17 @@ export default function AddPost() {
 
   const submitHandler = (data: any) => {
     const formData = new FormData();
-    console.log(data);
     const { image, description } = data;
     formData.append("image", image[0]);
     formData.append("description", description);
     formData.append("author", "1");
-    fetch(process.env.NEXT_PUBLIC_API + "/posts/", {
-      method: "POST",
-      body: formData,
-    })
-      .then((response) => response.json())
-      .then((result) => {
-        console.log("Upload success:", result);
-      })
-      .catch((error) => {
-        console.error("Upload error:", error);
-      });
+    requests(
+      process.env.NEXT_PUBLIC_API + "/posts/",
+      "POST",
+      formData,
+      (result) => console.log("Upload success: ", result),
+      (error) => console.error("Upload error:", error)
+    );
   };
 
   return (

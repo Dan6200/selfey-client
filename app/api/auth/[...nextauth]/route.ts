@@ -1,3 +1,4 @@
+import requests from "@/lib/utils/requests";
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 
@@ -14,7 +15,13 @@ const handler = NextAuth({
       if (account?.id_token) {
         token.jwtToken = account.id_token;
       }
-      console.log("token", token);
+      requests(
+        process.env.NEXT_PUBLIC_API + "/google/",
+        "POST",
+        token,
+        (result) => console.log("Login success: ", result),
+        (error) => console.error("Login error:", error)
+      );
       return token;
     },
     session: async ({ session, token }: any) => {
