@@ -10,8 +10,9 @@ import { Textarea } from "./ui/textarea";
 export default function AddPost() {
   const { register, handleSubmit } = useForm();
   const session = useSession();
+  const router = useRouter();
 
-  const submitHandler = async (data: any) => {
+  const submitHandler = async (router: any, data: any) => {
     const formData = new FormData();
     const { image, description } = data;
     formData.append("image", image[0]);
@@ -24,7 +25,7 @@ export default function AddPost() {
       formData,
       (error) => console.error("Upload error:", error)
     );
-    useRouter().push("/");
+    router.push("/");
   };
 
   return (
@@ -33,7 +34,7 @@ export default function AddPost() {
         <CardHeader>
           <form
             className="flex flex-col h-64 justify-between"
-            onSubmit={handleSubmit(submitHandler)}
+            onSubmit={handleSubmit(submitHandler.bind(null, router))}
           >
             <div className="flex flex-col space-y-4 h-48">
               <input type="file" {...register("image")} />
