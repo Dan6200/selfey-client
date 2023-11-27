@@ -1,8 +1,9 @@
 "use client";
+import convB64ToBlob from "@/lib/utils/conv-b64-to-blob";
 import requests from "@/lib/utils/requests";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useCallback, useRef } from "react";
+import { useCallback, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import Webcam from "react-webcam";
 import { Button } from "./ui/button";
@@ -14,31 +15,41 @@ export default function AddPost() {
   const session = useSession();
   const router = useRouter();
   const webcamRef = useRef(null);
+  const [formData, setFormData] = useState(new FormData());
+  console.log(session.data);
 
   const capture = useCallback(() => {
-    const imageSrc = (webcamRef as any).current?.getScreenshot();
-    console.log(imageSrc);
+    const capturedImageSrc = (webcamRef as any).current?.getScreenshot();
+    const b64Img = capturedImageSrc.slice(capturedImageSrc.indexOf(",") + 1);
+    formData.append("image", convB64ToBlob(b64Img) as any);
+    setFormData(formData);
   }, [webcamRef]);
+
   const submitHandler = async (router: any, data: any) => {
-    const formData = new FormData();
     const { image, description } = data;
-    formData.append("image", image[0]);
-    formData.append("description", description);
-    const result = await requests(
-      process.env.NEXT_PUBLIC_API +
-        "/posts/" +
-        (session as any)?.data?.apiResponse?.user_id,
-      "POST",
-      formData,
-      (error) => console.error("Upload error:", error)
-    );
-    router.push("/");
+    try {
+      if (image.length != 0) formData.append("image", image[0]);
+      formData.append("description", description);
+      formData.append("author", (session as any)?.data?.apiResponse?.id);
+      console.log(formData);
+      const result = await requests(
+        process.env.NEXT_PUBLIC_API + "/posts/",
+        "POST",
+        formData,
+        (error) => {
+          throw error;
+        }
+      );
+      router.push("/");
+    } catch (error) {
+      console.log("Upload error:", error);
+    }
   };
 
   return (
     <section className="flex flex-col items-center">
-      <Card className="w-[90%] md:w-[50%] h-[56rem] p-16">
-        <CardHeader className="space-y-8 h-[48rem]">
+      <Card className="w-[90%] md:w-[50%] p-16">
+        <CardHeader className="space-y-8">
           <Webcam
             className=""
             audio={false}

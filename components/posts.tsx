@@ -5,14 +5,21 @@ import Image from "next/image";
 import { Card, CardFooter, CardHeader } from "./ui/card";
 
 export default async function Posts() {
-  const session = getServerSession(authOptions);
-  const username = (session as any).data?.apiResponse?.username;
+  const session = await getServerSession(authOptions);
   const posts = await requests(
     process.env.NEXT_PUBLIC_API + "/posts/",
     "GET",
     null,
     (error) => console.error("Error fetching resource", error)
   );
+  const username = (
+    await requests(
+      process.env.NEXT_PUBLIC_API + "/users/" + posts[0].author,
+      "GET",
+      null,
+      (error) => console.error("Error fetching resource", error)
+    )
+  ).username;
   return (
     <section className="flex flex-col mb-16 items-center space-y-12">
       <Card className="w-[90%] md:w-[50%]">
@@ -26,7 +33,12 @@ export default async function Posts() {
         </CardHeader>
         <CardFooter className="flex flex-col items-start">
           <p className="my-4">A beauty 😍</p>
-          <p className="my-4 italic font-thin">By your_cool_programmer</p>
+          <p className="my-4 italic font-thin">
+            By{" "}
+            <span className="font-bold text-blue-900">
+              your_cool_programmer
+            </span>
+          </p>
         </CardFooter>
       </Card>
       <Card className="w-[90%] md:w-[50%]">
@@ -35,7 +47,12 @@ export default async function Posts() {
         </CardHeader>
         <CardFooter className="flex flex-col items-start">
           <p className="my-4">Scenery 🏔️</p>
-          <p className="my-4 italic font-thin">By your_cool_programmer</p>
+          <p className="my-4 italic font-thin">
+            By{" "}
+            <span className="font-bold text-blue-900">
+              your_cool_programmer
+            </span>
+          </p>
         </CardFooter>
       </Card>
       <Card className="w-[90%] md:w-[50%]">
@@ -49,7 +66,12 @@ export default async function Posts() {
         </CardHeader>
         <CardFooter className="flex flex-col items-start">
           <p className="my-4">Live a life of luxury 🥂</p>
-          <p className="my-4 italic font-thin">By your_cool_programmer</p>
+          <p className="my-4 italic font-thin">
+            By{" "}
+            <span className="font-bold text-blue-900">
+              your_cool_programmer
+            </span>
+          </p>
         </CardFooter>
       </Card>
       {posts &&
@@ -65,7 +87,9 @@ export default async function Posts() {
             </CardHeader>
             <CardFooter className="flex flex-col items-start">
               <p className="my-4">{post.description}</p>
-              <p className="my-4 italic font-thin">By {username}</p>
+              <p className="my-4 italic font-thin">
+                By <span className="font-bold text-blue-900">{username}</span>
+              </p>
             </CardFooter>
           </Card>
         ))}
