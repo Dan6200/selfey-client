@@ -38,16 +38,17 @@ export default function AddPost() {
   return (
     <section className="flex flex-col items-center">
       <Card className="w-[90%] md:w-[50%] h-[56rem] p-16">
-        <CardHeader>
+        <CardHeader className="space-y-8 h-[48rem]">
           <Webcam
-            className="mb-8"
+            className=""
             audio={false}
             ref={webcamRef}
             screenshotFormat="image/jpeg"
           />
-          <Button className="mb-8" onClick={capture}>
+          <Button className="" onClick={capture}>
             Capture photo
           </Button>
+          <h3 className="text-2xl">Or Upload a photo</h3>
           <form
             className="flex flex-col h-64 justify-between"
             onSubmit={handleSubmit(submitHandler.bind(null, router))}
