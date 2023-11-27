@@ -1,11 +1,8 @@
-import authOptions from "@/lib/utils/authOptions";
 import requests from "@/lib/utils/requests";
-import { getServerSession } from "next-auth";
 import Image from "next/image";
 import { Card, CardFooter, CardHeader } from "./ui/card";
 
 export default async function Posts() {
-  const session = await getServerSession(authOptions);
   const posts = await requests(
     process.env.NEXT_PUBLIC_API + "/posts/",
     "GET",
@@ -25,6 +22,27 @@ export default async function Posts() {
   );
   return (
     <section className="flex flex-col mb-16 items-center space-y-12">
+      {posts?.reverse().map((post: any, index: number) => (
+        <Card className="w-[90%] md:w-[50%]" key={index}>
+          <CardHeader>
+            <Image
+              src={post.image}
+              height={800}
+              width={800}
+              alt={"Post by " + usernames?.[index] + " could not load"}
+            />
+          </CardHeader>
+          <CardFooter className="flex flex-col items-start">
+            <p className="my-4">{post.description}</p>
+            <p className="my-4 italic font-thin">
+              By{" "}
+              <span className="font-bold text-blue-900">
+                {usernames?.[index]}
+              </span>
+            </p>
+          </CardFooter>
+        </Card>
+      ))}
       <Card className="w-[90%] md:w-[50%]">
         <CardHeader>
           <Image
@@ -77,28 +95,6 @@ export default async function Posts() {
           </p>
         </CardFooter>
       </Card>
-      {posts &&
-        posts.map((post: any, index: number) => (
-          <Card className="w-[90%] md:w-[50%]" key={index}>
-            <CardHeader>
-              <Image
-                src={post.image}
-                height={800}
-                width={800}
-                alt={"Post by " + usernames?.[index] + " could not load"}
-              />
-            </CardHeader>
-            <CardFooter className="flex flex-col items-start">
-              <p className="my-4">{post.description}</p>
-              <p className="my-4 italic font-thin">
-                By{" "}
-                <span className="font-bold text-blue-900">
-                  {usernames?.[index]}
-                </span>
-              </p>
-            </CardFooter>
-          </Card>
-        ))}
     </section>
   );
 }
