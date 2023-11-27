@@ -15,6 +15,43 @@ export default async function Posts() {
   );
   return (
     <section className="flex flex-col items-center space-y-12">
+      <Card className="w-[90%] md:w-[50%]">
+        <CardHeader>
+          <Image
+            src="/Koenigsegg.jpg"
+            height={800}
+            width={800}
+            alt={"A lambo"}
+          />
+        </CardHeader>
+        <CardFooter className="flex flex-col items-start">
+          <p className="my-4">A beauty 😍</p>
+          <p className="my-4 italic font-thin">By your_cool_programmer</p>
+        </CardFooter>
+      </Card>
+      <Card className="w-[90%] md:w-[50%]">
+        <CardHeader>
+          <Image src="/Lamb.jpg" height={800} width={800} alt={"A lambo"} />
+        </CardHeader>
+        <CardFooter className="flex flex-col items-start">
+          <p className="my-4">Scenery 🏔️</p>
+          <p className="my-4 italic font-thin">By your_cool_programmer</p>
+        </CardFooter>
+      </Card>
+      <Card className="w-[90%] md:w-[50%]">
+        <CardHeader>
+          <Image
+            src="/Bentley.jpg"
+            height={800}
+            width={800}
+            alt={"A bentley"}
+          />
+        </CardHeader>
+        <CardFooter className="flex flex-col items-start">
+          <p className="my-4">Live a life of luxury 🥂</p>
+          <p className="my-4 italic font-thin">By your_cool_programmer</p>
+        </CardFooter>
+      </Card>
       {posts &&
         posts.map((post: any, index: number) => (
           <Card className="w-[90%] md:w-[50%]" key={index}>
