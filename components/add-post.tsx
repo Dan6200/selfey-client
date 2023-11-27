@@ -13,6 +13,7 @@ import { Textarea } from "./ui/textarea";
 export default function AddPost() {
   const { register, handleSubmit } = useForm();
   const session = useSession();
+  const username = (session as any)?.data?.apiResponse?.username;
   const router = useRouter();
   const webcamRef = useRef(null);
   const [formData, setFormData] = useState(new FormData());
@@ -21,7 +22,11 @@ export default function AddPost() {
   const capture = useCallback(() => {
     const capturedImageSrc = (webcamRef as any).current?.getScreenshot();
     const b64Img = capturedImageSrc.slice(capturedImageSrc.indexOf(",") + 1);
-    formData.append("image", convB64ToBlob(b64Img) as any);
+    const blob = convB64ToBlob(b64Img);
+    const file = new File([blob as any], "picture-by-" + username + ".jpg", {
+      type: "image/jpeg",
+    });
+    formData.append("image", file);
     setFormData(formData);
   }, [webcamRef]);
 
@@ -31,7 +36,6 @@ export default function AddPost() {
       if (image.length != 0) formData.append("image", image[0]);
       formData.append("description", description);
       formData.append("author", (session as any)?.data?.apiResponse?.id);
-      console.log(formData);
       const result = await requests(
         process.env.NEXT_PUBLIC_API + "/posts/",
         "POST",

@@ -14,12 +14,12 @@ export default async function Posts() {
   );
   const username = (
     await requests(
-      process.env.NEXT_PUBLIC_API + "/users/" + posts[0].author,
+      process.env.NEXT_PUBLIC_API + "/users/" + posts[0]?.author,
       "GET",
       null,
       (error) => console.error("Error fetching resource", error)
     )
-  ).username;
+  )?.username;
   return (
     <section className="flex flex-col mb-16 items-center space-y-12">
       <Card className="w-[90%] md:w-[50%]">
