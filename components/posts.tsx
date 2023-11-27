@@ -14,7 +14,7 @@ export default async function Posts() {
     (error) => console.error("Error fetching resource", error)
   );
   return (
-    <section className="flex flex-col items-center space-y-12">
+    <section className="flex flex-col mb-16 items-center space-y-12">
       <Card className="w-[90%] md:w-[50%]">
         <CardHeader>
           <Image

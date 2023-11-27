@@ -25,6 +25,9 @@ export default function RootLayout({
             <main className="flex min-h-screen flex-col space-y-24">
               <Nav />
               {children}
+              <footer className="mt-16 border-t-2 text-center">
+                My Footer
+              </footer>
             </main>
           </JotaiProvider>
         </NextAuthProvider>

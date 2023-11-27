@@ -5,14 +5,14 @@ import { useSession } from "next-auth/react";
 import { signOut } from "next-auth/react";
 
 export default function Nav() {
-  const { data: userData } = useSession();
+  const session = useSession();
   return (
     <nav className="w-full border-red-800 flex justify-between px-8 border-b-foreground border-b-[1pt] py-4">
       <Link href="/">
         <h1 className="font-bold text-xl">Selfey</h1>
       </Link>
       <div className="w-fit flex space-x-8 flex-end justify-between">
-        {userData ? (
+        {session.status !== "authenticated" ? (
           <>
             <Link href="/">
               <Button>Browse</Button>

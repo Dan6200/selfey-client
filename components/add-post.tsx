@@ -11,6 +11,7 @@ export default function AddPost() {
   const { register, handleSubmit } = useForm();
   const session = useSession();
   const router = useRouter();
+  console.log(session);
 
   const submitHandler = async (router: any, data: any) => {
     const formData = new FormData();
