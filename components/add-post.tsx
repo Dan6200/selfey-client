@@ -1,7 +1,7 @@
 "use client";
 import requests from "@/lib/utils/requests";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { Button } from "./ui/button";
 import { Card, CardHeader } from "./ui/card";
@@ -20,7 +20,7 @@ export default function AddPost() {
     const result = await requests(
       process.env.NEXT_PUBLIC_API +
         "/posts/" +
-        session?.data?.apiResponse?.user_id,
+        (session as any)?.data?.apiResponse?.user_id,
       "POST",
       formData,
       (error) => console.error("Upload error:", error)

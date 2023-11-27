@@ -6,6 +6,7 @@ import { Card, CardFooter, CardHeader } from "./ui/card";
 
 export default async function Posts() {
   const session = getServerSession(authOptions);
+  const username = (session as any).data?.apiResponse?.username;
   const posts = await requests(
     process.env.NEXT_PUBLIC_API + "/posts/",
     "GET",
@@ -22,16 +23,12 @@ export default async function Posts() {
                 src={post.image}
                 height={800}
                 width={800}
-                alt={
-                  "Post by " +
-                  (session as any).data?.apiResponse?.username +
-                  " could not load"
-                }
+                alt={"Post by " + username + " could not load"}
               />
             </CardHeader>
             <CardFooter className="flex flex-col items-start">
               <p className="my-4">{post.description}</p>
-              <p className="my-4 italic font-thin">By {user.username}</p>
+              <p className="my-4 italic font-thin">By {username}</p>
             </CardFooter>
           </Card>
         ))}
