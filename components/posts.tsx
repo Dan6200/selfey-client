@@ -2,13 +2,13 @@ import requests from "@/lib/utils/requests";
 import Image from "next/image";
 import { Card, CardFooter, CardHeader } from "./ui/card";
 
-export default async function Posts() {
-  const posts = await requests(
-    process.env.NEXT_PUBLIC_API + "/posts/",
-    "GET",
-    null,
-    (error) => console.error("Error fetching resource", error)
-  );
+export default async function Posts({ posts }: any) {
+  // const posts = await requests(
+  //   process.env.NEXT_PUBLIC_API + "/posts/",
+  //   "GET",
+  //   null,
+  //   (error) => console.error("Error fetching resource", error)
+  // );
   const usernames = await posts?.map(
     async (post: any) =>
       (
@@ -49,7 +49,7 @@ export default async function Posts() {
             src="/Koenigsegg.jpg"
             height={800}
             width={800}
-            alt={"A lambo"}
+            alt={"A Koenigsegg"}
           />
         </CardHeader>
         <CardFooter className="flex flex-col items-start">

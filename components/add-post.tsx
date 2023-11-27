@@ -9,7 +9,6 @@ import Webcam from "react-webcam";
 import { Button } from "./ui/button";
 import { Card, CardHeader } from "./ui/card";
 import { Textarea } from "./ui/textarea";
-import Image from "next/image";
 
 export default function AddPost() {
   const { register, handleSubmit } = useForm();
@@ -48,7 +47,7 @@ export default function AddPost() {
       );
       router.push("/");
     } catch (error) {
-      console.log("Upload error:", error);
+      console.error("Upload error:", error);
     }
   };
 
