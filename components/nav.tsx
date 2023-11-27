@@ -12,7 +12,7 @@ export default function Nav() {
         <h1 className="font-bold text-xl">Selfey</h1>
       </Link>
       <div className="w-fit flex space-x-8 flex-end justify-between">
-        {session.status !== "authenticated" ? (
+        {session.status === "authenticated" ? (
           <>
             <Link href="/">
               <Button>Browse</Button>
