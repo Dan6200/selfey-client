@@ -19,7 +19,6 @@ export default function AddPost() {
   const webcamRef = useRef(null);
   const [formData, setFormData] = useState(new FormData());
   const [capturedImgSrc, setCapturedImgSrc] = useState("");
-  console.log(session.data);
 
   const capture = useCallback(() => {
     const capturedImageSrc = (webcamRef as any).current?.getScreenshot();
