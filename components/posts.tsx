@@ -12,14 +12,17 @@ export default async function Posts() {
     null,
     (error) => console.error("Error fetching resource", error)
   );
-  const username = (
-    await requests(
-      process.env.NEXT_PUBLIC_API + "/users/" + posts[0]?.author,
-      "GET",
-      null,
-      (error) => console.error("Error fetching resource", error)
-    )
-  )?.username;
+  const usernames = await posts?.map(
+    async (post: any) =>
+      (
+        await requests(
+          process.env.NEXT_PUBLIC_API + "/users/" + post?.author,
+          "GET",
+          null,
+          (error) => console.error("Error fetching resource", error)
+        )
+      )?.username
+  );
   return (
     <section className="flex flex-col mb-16 items-center space-y-12">
       <Card className="w-[90%] md:w-[50%]">
@@ -82,13 +85,16 @@ export default async function Posts() {
                 src={post.image}
                 height={800}
                 width={800}
-                alt={"Post by " + username + " could not load"}
+                alt={"Post by " + usernames?.[index] + " could not load"}
               />
             </CardHeader>
             <CardFooter className="flex flex-col items-start">
               <p className="my-4">{post.description}</p>
               <p className="my-4 italic font-thin">
-                By <span className="font-bold text-blue-900">{username}</span>
+                By{" "}
+                <span className="font-bold text-blue-900">
+                  {usernames?.[index]}
+                </span>
               </p>
             </CardFooter>
           </Card>
