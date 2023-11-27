@@ -9,6 +9,7 @@ import Webcam from "react-webcam";
 import { Button } from "./ui/button";
 import { Card, CardHeader } from "./ui/card";
 import { Textarea } from "./ui/textarea";
+import Image from "next/image";
 
 export default function AddPost() {
   const { register, handleSubmit } = useForm();
@@ -17,10 +18,12 @@ export default function AddPost() {
   const router = useRouter();
   const webcamRef = useRef(null);
   const [formData, setFormData] = useState(new FormData());
+  const [capturedImgSrc, setCapturedImgSrc] = useState("");
   console.log(session.data);
 
   const capture = useCallback(() => {
     const capturedImageSrc = (webcamRef as any).current?.getScreenshot();
+    setCapturedImgSrc(capturedImageSrc); // why is this not updating
     const b64Img = capturedImageSrc.slice(capturedImageSrc.indexOf(",") + 1);
     const blob = convB64ToBlob(b64Img);
     const file = new File([blob as any], "picture-by-" + username + ".jpg", {
@@ -28,7 +31,7 @@ export default function AddPost() {
     });
     formData.append("image", file);
     setFormData(formData);
-  }, [webcamRef]);
+  }, [webcamRef, formData, capturedImgSrc]);
 
   const submitHandler = async (router: any, data: any) => {
     const { image, description } = data;
@@ -63,6 +66,9 @@ export default function AddPost() {
           <Button className="" onClick={capture}>
             Capture photo
           </Button>
+          {capturedImgSrc && (
+            <img src={capturedImgSrc} alt="capturedimg" className="w-16" />
+          )}
           <h3 className="text-2xl">Or Upload a photo</h3>
           <form
             className="flex flex-col h-64 justify-between"
