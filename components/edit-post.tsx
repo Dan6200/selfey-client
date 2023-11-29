@@ -24,14 +24,23 @@ export default function EditPost() {
   const [formData, setFormData] = useState(new FormData());
   const [capturedImgSrc, setCapturedImgSrc] = useState("");
   const post: any = useAtomValue(postsAtom).find((post: any) => post?.id == id);
-  const prevImg = fetch(post?.image);
-  formData.append("image", prevImg as any);
-  formData.append("description", post?.description);
 
   useEffect(() => {
     if (!post) {
       router.push("/");
     }
+    (async () => {
+      const blob = await fetch(post?.image).then((res) => res.blob());
+      const prevImg = new File(
+        [blob as any],
+        "picture-by-" + username + ".jpg",
+        {
+          type: "image/jpeg",
+        }
+      );
+      formData.append("image", prevImg as any);
+      formData.append("description", post?.description);
+    })();
   }, []);
 
   const capture = useCallback(() => {
