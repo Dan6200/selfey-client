@@ -13,6 +13,7 @@ import { Button } from "./ui/button";
 import { Card, CardHeader } from "./ui/card";
 import { Textarea } from "./ui/textarea";
 import { apiRoute } from "./posts";
+import { Loader2 } from "lucide-react";
 
 export default function EditPost() {
   const { id } = useParams();
@@ -24,6 +25,7 @@ export default function EditPost() {
   const [formData, setFormData] = useState(new FormData());
   const [capturedImgSrc, setCapturedImgSrc] = useState("");
   const post: any = useAtomValue(postsAtom).find((post: any) => post?.id == id);
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     if (!post) {
@@ -56,6 +58,8 @@ export default function EditPost() {
   }, [webcamRef, formData, capturedImgSrc]);
 
   const submitHandler = async (router: any, data: any) => {
+    if (submitting) return;
+    setSubmitting(true);
     const { image, description } = data;
     try {
       if (image.length != 0) formData.append("image", image[image.length - 1]);
@@ -65,11 +69,12 @@ export default function EditPost() {
       router.push("/");
     } catch (error) {
       console.error("Upload error:", error);
+      setSubmitting(false);
     }
   };
 
   return (
-    <Card className="w-[90%] md:w-[50%] p-16">
+    <Card className="w-[90%] md:w-[50%] p-4 sm:p-8 md:p-16">
       <CardHeader className="space-y-8">
         <div className="flex w-full justify-between">
           <h3 className="text-lg capitalize">Previous post Image</h3>
@@ -118,7 +123,15 @@ export default function EditPost() {
             >
               Cancel
             </Button>
-            <Button type="submit">Update Post</Button>
+            <Button
+              type="submit"
+              className={
+                !submitting ? "" : "hover:bg-foreground/60 bg-foreground/60"
+              }
+            >
+              {submitting && <Loader2 className="animate-spin ml-2" />}
+              Update Post
+            </Button>
           </div>
         </form>
       </CardHeader>

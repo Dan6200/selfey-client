@@ -15,28 +15,32 @@ export default function Posts() {
   const username = (useSession()?.data as any)?.apiResponse?.username;
   getPosts().then((posts) => setPosts(posts as any));
   return posts?.length ? (
-    posts.reverse().map((post: any) => (
-      <Card className="w-[90%] md:w-[50%]" key={post.id}>
-        <CardHeader>
-          <Image
-            className="w-full"
-            src={post.image}
-            height={500}
-            width={500}
-            alt={"Post by " + post.username + " could not load"}
-          />
-        </CardHeader>
-        <CardFooter className="space-y-4 flex flex-col items-start">
-          <p className="my-4">{post.description}</p>
-          <p className="my-4 italic font-thin">
-            By <span className="font-bold text-blue-900">{post.username}</span>
-          </p>
-          {username === post.username && (
-            <EditOrDeletePost {...{ id: post.id }} />
-          )}
-        </CardFooter>
-      </Card>
-    ))
+    posts
+      .slice()
+      .reverse()
+      .map((post: any) => (
+        <Card className="w-[90%] md:w-[50%]" key={post.id}>
+          <CardHeader>
+            <Image
+              className="max-h-96 mx-auto object-contain"
+              src={post.image}
+              height={500}
+              width={600}
+              alt={"Post by " + post.username + " could not load"}
+            />
+          </CardHeader>
+          <CardFooter className="space-y-4 flex flex-col items-start">
+            <p className="my-4">{post.description}</p>
+            <p className="my-4 italic font-thin">
+              By{" "}
+              <span className="font-bold text-blue-900">{post.username}</span>
+            </p>
+            {username === post.username && (
+              <EditOrDeletePost {...{ id: post.id }} />
+            )}
+          </CardFooter>
+        </Card>
+      ))
   ) : (
     <h1 className="w-[70%] text-center text-xl capitalize">
       No posts made yet. Click on Add Post to add the first post!

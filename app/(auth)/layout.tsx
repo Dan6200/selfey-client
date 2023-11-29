@@ -21,7 +21,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <NextAuthProvider>
           <main className="flex min-h-screen flex-col items-center space-y-24">
-            <nav className="w-full border-red-800 flex justify-between px-8 border-b-foreground border-b-[1pt] py-4">
+            <nav className="w-full flex justify-between px-8 border-b py-4">
               <Link href="/">
                 <h1 className="font-bold text-xl">Selfey</h1>
               </Link>

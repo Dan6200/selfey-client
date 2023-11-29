@@ -4,6 +4,7 @@ import convB64ToBlob from "@/lib/utils/conv-b64-to-blob";
 import getPosts from "@/lib/utils/get-posts";
 import requests from "@/lib/utils/requests";
 import { useAtom, useSetAtom } from "jotai";
+import { Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useCallback, useRef, useState } from "react";
@@ -22,6 +23,8 @@ export default function AddPost() {
   const [formData, setFormData] = useState(new FormData());
   const [capturedImgSrc, setCapturedImgSrc] = useState("");
   const setPosts = useSetAtom(postsAtom);
+  const [submitting, setSubmitting] = useState(false);
+  console.log(submitting);
 
   const capture = useCallback(() => {
     const capturedImageSrc = (webcamRef as any).current?.getScreenshot();
@@ -36,6 +39,8 @@ export default function AddPost() {
   }, [webcamRef, formData, capturedImgSrc]);
 
   const submitHandler = async (router: any, data: any) => {
+    if (submitting) return;
+    setSubmitting(true);
     const { image, description } = data;
     try {
       if (image.length != 0) formData.append("image", image[image.length - 1]);
@@ -49,11 +54,12 @@ export default function AddPost() {
       router.push("/");
     } catch (error) {
       console.error("Upload error:", error);
+      setSubmitting(false);
     }
   };
 
   return (
-    <Card className="w-[90%] md:w-[50%] p-16">
+    <Card className="w-[90%] md:w-[50%] p-4 sm:p-8 md:p-16">
       <CardHeader className="space-y-8">
         <Webcam
           className=""
@@ -82,7 +88,15 @@ export default function AddPost() {
               ></Textarea>
             </div>
           </div>
-          <Button type="submit">Post</Button>
+          <Button
+            type="submit"
+            className={
+              !submitting ? "" : "hover:bg-foreground/60 bg-foreground/60"
+            }
+          >
+            {submitting && <Loader2 className="animate-spin ml-2" />}
+            Post
+          </Button>
         </form>
       </CardHeader>
     </Card>
