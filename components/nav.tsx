@@ -7,13 +7,19 @@ import { signOut } from "next-auth/react";
 export default function Nav() {
   const session = useSession();
   return (
-    <nav className="w-full border-red-800 flex justify-between px-8 border-b-foreground border-b-[1pt] py-4">
+    <nav className="w-full flex justify-between px-8 border-b h-fit py-4">
       <Link href="/">
         <h1 className="font-bold text-xl">Selfey</h1>
       </Link>
       <div className="w-fit flex space-x-8 flex-end justify-between">
         {session.status === "authenticated" ? (
           <>
+            <h3 className="text-lg">
+              Welcome{" "}
+              <span className="italic text-blue-700">
+                {(session as any)?.data?.apiResponse?.username}
+              </span>
+            </h3>
             <Link href="/">
               <Button>Browse</Button>
             </Link>

@@ -18,8 +18,7 @@ export default {
       const apiResponse = await requests(
         process.env.NEXT_PUBLIC_API + "/google/",
         "POST",
-        { auth_token: token.jwtToken },
-        (error) => console.error("Login error:", error)
+        { auth_token: token.jwtToken }
       );
       token.apiResponse = apiResponse;
       return token;

@@ -22,10 +22,12 @@ export default function RootLayout({
       <body className={inter.className}>
         <NextAuthProvider>
           <JotaiProvider>
-            <main className="flex min-h-screen flex-col space-y-24">
+            <main className="relative flex min-h-screen flex-col space-y-24 pb-6">
               <Nav />
-              {children}
-              <footer className="mt-16 border-t-2 text-center">
+              <section className="flex flex-col mb-16 min-h-[68rem] py-16 h-fit w-full items-center space-y-12">
+                {children}
+              </section>
+              <footer className="absolute bottom-0 w-full p-6 font-semibold text-lg border-t-2 text-center">
                 My Footer
               </footer>
             </main>

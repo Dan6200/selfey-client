@@ -1,11 +1,6 @@
 import axios from "axios";
 
-export default async function (
-  url: string,
-  action: string,
-  body: any,
-  onError: (error: any) => void
-) {
+export default async function (url: string, action: string, body: any) {
   try {
     const response = await axios({
       method: action,
@@ -13,7 +8,7 @@ export default async function (
       data: body,
     });
     return response.data;
-  } catch (error) {
-    onError(error);
+  } catch (err) {
+    throw err;
   }
 }
